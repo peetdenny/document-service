@@ -1,21 +1,42 @@
 var logger = require('./logger')
 var amqp = require('amqplib/callback_api');
+var email   = require("emailjs/email");
 
-var args = process.argv.slice(2);
-
-if(!args || args.length != 1){
-	console.log("Please provide amqp uri in form amqp://user:password@host:port as input argument")
-	process.exit(-1)
+var getEnv = function(envName){
+	var envVar = process.env[envName];
+	if(!envVar || envVar == ""){
+		console.log("Please set " + envName + " environment variable.")
+		process.exit(-1)
+	}
+	return envVar;
 }
 
-var amqpUri = args[0]
+var config = {
+	amqpUri : getEnv("AMQP_URI"),
+	smtpHost : getEnv("SMTP_HOST"),
+	smtpPort : getEnv("SMTP_PORT"),
+	smtpSsl : getEnv("SMTP_SSL"),
+	senderEmail : getEnv("SENDER_EMAIL"),
+	senderPassword : getEnv("SENDER_PASSWORD"),
+}
 
-amqp.connect(amqpUri, function(err, conn) {
+var server  = email.server.connect({
+   user:     config.senderEmail, 
+   password: config.senderPassword,
+   host:     config.smtpHost,
+   ssl:      config.smtpSsl,
+   port : 	 config.smtpPort,
+});
+
+
+amqp.connect(config.amqpUri, function(err, conn) {
 	if(err){
 		logger.error(err)
 		if(conn) conn.close();
 		return;
 	}
+
+	logger.info("Connected to amqp broker: %s", config.amqpUri)
 
 	// send notification to document service
   	conn.createChannel(function(err, ch) {
@@ -26,8 +47,23 @@ amqp.connect(amqpUri, function(err, conn) {
 		
 		ch.consume(queueName, function(msg) {
 			logger.info("Received %s", msg.content)
+			var payload = JSON.parse(msg.content)
+			var toEmail = payload.email;
+			var recommendation = payload.recommendation;
 
-			// TODO send email notification
+			server.send({
+			   text:    recommendation, 
+			   from:    config.senderEmail, 
+			   to:      toEmail,
+			   subject: "How many toddler tantrums can you cope with before you commit a crime?"
+			}, function(err, message) { 
+				if(err){
+					logger.error("An error when sending an email to %s", toEmail)
+					return;
+				}
+
+				logger.info("Successfully notified user %s", toEmail)
+			});
 
 			// ack that message was processed
 			ch.ack(msg);
