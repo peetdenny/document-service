@@ -15,4 +15,5 @@ Service requires an access to smtp server in order to send emails and rabbitmq t
 - SENDER_PASSWORD
 
 These env variables can be passed when running a node app. For instance:
-<code>AMQP_URI=amqp://test:test@192.168.200.10 SMTP_HOST=smtp.gmail.com SMTP_PORT=465 SMTP_SSL=true SENDER_EMAIL=sender-email@smpt.host SENDER_PASSWORD=secretpassword node app.js</code>
+
+<pre>AMQP_URI=amqp://test:test@192.168.200.10 SMTP_HOST=smtp.gmail.com SMTP_PORT=465 SMTP_SSL=true SENDER_EMAIL=sender-email@smpt.host SENDER_PASSWORD=secretpassword node app.js</pre>
