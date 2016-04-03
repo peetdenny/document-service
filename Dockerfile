@@ -4,7 +4,7 @@ MAINTAINER Ewa Dadacz <ewa.dadacz@gmail.com>
 RUN apt-get update && apt-get install -qq -y build-essential apt-transport-https ca-certificates libsystemd-journal0
 
 # Create app directory
-ENV INSTALL_PATH /usr/src/advice-service
+ENV INSTALL_PATH /usr/src/document-service
 RUN mkdir -p $INSTALL_PATH
 
 
