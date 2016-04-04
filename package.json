@@ -1,0 +1,24 @@
+{
+  "name": "document-service",
+  "version": "1.0.0",
+  "description": "Demo of a Node microservice with an AMQP transport running on Docker",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peetdenny/document-service.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/peetdenny/document-service/issues"
+  },
+  "homepage": "https://github.com/peetdenny/document-service#readme",
+  "dependencies": {
+    "amqplib": "^0.4.1",
+    "emailjs": "^1.0.4",
+    "winston": "^2.2.0"
+  }
+}
