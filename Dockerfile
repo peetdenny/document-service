@@ -4,11 +4,10 @@ MAINTAINER Ewa Dadacz <ewa.dadacz@gmail.com>
 RUN apt-get update && apt-get install -qq -y build-essential apt-transport-https ca-certificates libsystemd-journal0
 
 # Create app directory
-ENV INSTALL_PATH /usr/src/document-service
+ENV INSTALL_PATH /usr/src/app
 RUN mkdir -p $INSTALL_PATH
 
-
-WORKDIR $INSTALL_PATH
+#WORKDIR $INSTALL_PATH
 ENV AMQP_URI amqp://test:test@172.30.0.206
 ENV SMTP_HOST smtp.gmail.com 
 ENV SMTP_PORT 465 
@@ -24,5 +23,5 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-EXPOSE 3000
-CMD [ "nodemon", "$INSTALL_PATH/app.js", "$AMQP_URI", "$SMTP_HOST", "$SMTP_PORT", "$SMTP_SSL", "$SENDER_EMAIL", "$SENDER_PASSWORD"]
+EXPOSE 8080
+CMD [ "node", "app.js", "$AMQP_URI", "$SMTP_HOST", "$SMTP_PORT", "$SMTP_SSL", "$SENDER_EMAIL", "$SENDER_PASSWORD"]
