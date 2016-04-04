@@ -9,21 +9,20 @@ RUN mkdir -p $INSTALL_PATH
 
 
 WORKDIR $INSTALL_PATH
+ENV AMQP_URI amqp://test:test@172.30.0.206
+ENV SMTP_HOST smtp.gmail.com 
+ENV SMTP_PORT 465 
+ENV SMTP_SSL true 
+ENV SENDER_EMAIL sender-email@smpt.host 
+ENV SENDER_PASSWORD secretpassword
 
 # Install app dependencies
 COPY package.json $INSTALL_PATH
 RUN npm install -g nodemon
-RUN npm install express
-RUN npm install body-parser
-RUN npm install logger
-RUN npm install winston
-RUN npm install amqplib
-
-
+RUN npm install
 
 # Bundle app source
 COPY . .
 
 EXPOSE 3000
-CMD [ "nodemon", "$INSTALL_PATH/app.js", "amqp://user:password@host:port"]
-
+CMD [ "nodemon", "$INSTALL_PATH/app.js", "$AMQP_URI", "$SMTP_HOST", "$SMTP_PORT", "$SMTP_SSL", "$SENDER_EMAIL", "$SENDER_PASSWORD"]
