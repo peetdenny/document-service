@@ -15,14 +15,17 @@ var config = {
 	amqpUri : getEnv("AMQP_URI"),
 	smtpHost : getEnv("SMTP_HOST"),
 	smtpPort : getEnv("SMTP_PORT"),
+	smtpUsername : getEnv("SMTP_USERNAME"),
+	smtpPassword : getEnv("SMTP_PASSWORD"),
 	smtpSsl : getEnv("SMTP_SSL"),
-	senderEmail : getEnv("SENDER_EMAIL"),
-	senderPassword : getEnv("SENDER_PASSWORD"),
+	senderEmail : getEnv("SENDER_EMAIL")
 }
 
+logger.info("Using smtpusername=%s", JSON.stringify(config))
+
 var server  = email.server.connect({
-   user:     config.senderEmail, 
-   password: config.senderPassword,
+   user:     config.smtpUsername,
+   password: config.smtpPassword,
    host:     config.smtpHost,
    ssl:      config.smtpSsl,
    port : 	 config.smtpPort,
@@ -60,7 +63,7 @@ amqp.connect(config.amqpUri, function(err, conn) {
 			   subject: "How many toddler tantrums can you cope with before you commit a crime?"
 			}, function(err, message) { 
 				if(err){
-					logger.error("An error when sending an email to %s", toEmail)
+					logger.error("An error %s when sending an email to %s", err, toEmail)
 					return;
 				}
 
