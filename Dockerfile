@@ -8,12 +8,12 @@ ENV INSTALL_PATH /usr/src/app
 RUN mkdir -p $INSTALL_PATH
 
 #WORKDIR $INSTALL_PATH
-ENV AMQP_URI amqp://test:test@172.30.0.206
+ENV AMQP_URI amqp://guest:guest@172.30.0.206
 ENV SMTP_HOST email-smtp.eu-west-1.amazonaws.com 
 ENV SMTP_PORT 465 
-ENV SMTP_SSL true 
+ENV SMTP_SSL false 
 # username serviceuser
-ENV SENDER_EMAIL sender-email@smpt.host 
+ENV SENDER_EMAIL sender-email@smpt.host  
 ENV SENDER_PASSWORD secretpassword
 
 # Install app dependencies
@@ -24,5 +24,5 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-EXPOSE 8080
+# EXPOSE 8080
 CMD [ "node", "app.js", "$AMQP_URI", "$SMTP_HOST", "$SMTP_PORT", "$SMTP_SSL", "$SENDER_EMAIL", "$SENDER_PASSWORD"]
