@@ -14,7 +14,9 @@ ENV SMTP_PORT 465
 ENV SMTP_SSL false 
 # username serviceuser
 ENV SENDER_EMAIL sender-email@smpt.host  
-ENV SENDER_PASSWORD secretpassword
+# ENV SENDER_PASSWORD secretpassword
+ENV SMTP_USERNAME username
+ENV SMTP_PASSWORD password
 
 # Install app dependencies
 COPY package.json $INSTALL_PATH
@@ -25,4 +27,4 @@ RUN npm install
 COPY . .
 
 # EXPOSE 8080
-CMD [ "node", "app.js", "$AMQP_URI", "$SMTP_HOST", "$SMTP_PORT", "$SMTP_SSL", "$SENDER_EMAIL", "$SENDER_PASSWORD"]
+CMD [ "node", "app.js", "$AMQP_URI", "$SMTP_HOST", "$SMTP_PORT", "$SMTP_USERNAME", "$SMTP_PASSWORD",  "$SMTP_SSL", "$SENDER_EMAIL"]
