@@ -9,9 +9,10 @@ RUN mkdir -p $INSTALL_PATH
 
 #WORKDIR $INSTALL_PATH
 ENV AMQP_URI amqp://test:test@172.30.0.206
-ENV SMTP_HOST smtp.gmail.com 
+ENV SMTP_HOST email-smtp.eu-west-1.amazonaws.com 
 ENV SMTP_PORT 465 
 ENV SMTP_SSL true 
+# username serviceuser
 ENV SENDER_EMAIL sender-email@smpt.host 
 ENV SENDER_PASSWORD secretpassword
 
