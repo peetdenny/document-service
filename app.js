@@ -21,8 +21,6 @@ var config = {
 	senderEmail : getEnv("SENDER_EMAIL")
 }
 
-logger.info("Using smtpusername=%s", JSON.stringify(config))
-
 var server  = email.server.connect({
    user:     config.smtpUsername,
    password: config.smtpPassword,
