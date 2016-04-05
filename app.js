@@ -51,8 +51,10 @@ amqp.connect(config.amqpUri, function(err, conn) {
 			var toEmail = payload.email;
 			var recommendation = payload.recommendation;
 
+			var emailText = "Hi!\nThanks a lot for completing the survey. According to our calculations, you are able to withstand a further " + recommendation.score + " tantrums.\n" + recommendation.message
+
 			server.send({
-			   text:    recommendation, 
+			   text:    emailText, 
 			   from:    config.senderEmail, 
 			   to:      toEmail,
 			   subject: "How many toddler tantrums can you cope with before you commit a crime?"
