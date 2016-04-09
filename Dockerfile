@@ -24,8 +24,8 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-# ADD start.sh /start.sh
-# RUN chmod +x /start.sh
+ADD start.sh /start.sh
+RUN chmod +x /start.sh
 
-# ENTRYPOINT ["/start.sh"]
-CMD [ "node", "app.js"]
+ENTRYPOINT ["/start.sh"]
+#CMD [ "node", "app.js"]
